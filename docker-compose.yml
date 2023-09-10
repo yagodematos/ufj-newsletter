@@ -1,0 +1,15 @@
+version: '3.5'
+
+services:
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'newsletter'
+      MYSQL_USER: 'admin'
+      MYSQL_PASSWORD: 'senha'
+      MYSQL_RANDOM_ROOT_PASSWORD: true
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db/:/docker-entrypoint-initdb.d
