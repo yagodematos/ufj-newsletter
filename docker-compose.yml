@@ -3,6 +3,7 @@ version: '3.5'
 services:
   db:
     image: mysql:5.7
+    container_name: newsletter_db
     restart: always
     environment:
       MYSQL_DATABASE: 'newsletter'
@@ -13,3 +14,30 @@ services:
       - "3306:3306"
     volumes:
       - ./db/:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "admin", "-psenha" ]
+      start_period: 5s
+      interval: 5s
+      timeout: 10s
+      retries: 5
+    networks:
+      - backend
+
+  app:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: newsletter_backend
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - 3000:3000
+    networks:
+      - backend
+
+
+networks:
+  backend:
+
+  frontend:

@@ -1,15 +1,18 @@
 const fastify = require('fastify');
 const mysql = require('mysql2');
 
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'admin',
-    password: 'senha',
-    database: 'newsletter'
-});
+// const connection = mysql.createConnection({
+//     host: 'newsletter_db',
+//     user: 'admin',
+//     password: 'senha',
+//     database: 'newsletter'
+// });
 
 const app = fastify();
 
+app.get('/', (request, reply) => {
+    reply.send("Hello world;")
+});
 
 app.get('/users', (request, reply) => {
     connection.query(
