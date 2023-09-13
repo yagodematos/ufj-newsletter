@@ -1,15 +1,18 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fetch = require('node-fetch');
+const path = require('path')
 
 const app = express();
 
-app.use(express.static('public'))
 
-app.use(express.static('public/newsletter.html'))
+app.get('/', async (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+});
 
-// fazer router do /newsletter para public/newsletter.html
-
+app.get('/newsletter', async (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public', 'newsletter.html'));
+});
 
 app.post('/users', bodyParser.urlencoded({ extended: true }), async (req, res) => {
     const {name, email} = req.body;
@@ -23,6 +26,10 @@ app.post('/users', bodyParser.urlencoded({ extended: true }), async (req, res) =
     const data = await response.json()
 
     res.send(data);
+});
+
+app.post('/newsletter', async (req, res) => {
+
 });
 
 
