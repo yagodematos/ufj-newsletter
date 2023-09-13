@@ -43,7 +43,7 @@ app.post('/users', (request, reply) => {
                 reply.send({ error: err });
             }
 
-            reply.send(result)
+            reply.redirect('/users')
         });
 });
 
@@ -54,8 +54,7 @@ app.post('/newsletter', (request, reply) => {
         'SELECT name, email FROM `users`',
         (err, result) => {
             if (err) {
-                console.log('Newsletter error: ' + err);
-                process.exit()
+                reply.send({ error: err });
             }
 
             reply.send({
