@@ -1,17 +1,17 @@
 const fastify = require('fastify');
 const mysql = require('mysql2');
 
-// const connection = mysql.createConnection({
-//     host: 'newsletter_db',
-//     user: 'admin',
-//     password: 'senha',
-//     database: 'newsletter'
-// });
+const connection = mysql.createConnection({
+    host: 'newsletter_db',
+    user: 'admin',
+    password: 'senha',
+    database: 'newsletter'
+});
 
 const app = fastify();
 
 app.get('/', (request, reply) => {
-    reply.send("Hello world;")
+    reply.send("Hello world");
 });
 
 app.get('/users', (request, reply) => {
@@ -67,4 +67,4 @@ app.post('/newsletter', (request, reply) => {
 });
 
 
-app.listen({ port: 3000 })
+app.listen({port: 8080, host: "0.0.0.0" })
