@@ -28,8 +28,21 @@ app.post('/users', bodyParser.urlencoded({ extended: true }), async (req, res) =
     res.send(data);
 });
 
-app.post('/newsletter', async (req, res) => {
+app.post('/newsletter', bodyParser.urlencoded({ extended: true }),  async (req, res) => {
+    const {passwd, message} = await req.body;
 
+    // TODO: verificar se passwd == process.ENV.PASSWD
+
+
+    const response = await fetch('http://localhost:8080/newsletter', {
+        method: 'post',
+        body: JSON.stringify({message}),
+        headers: {'Content-Type': 'application/json'}
+    });
+
+    const data = await response.json();
+
+    res.send(data);
 });
 
 
