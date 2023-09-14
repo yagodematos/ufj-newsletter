@@ -17,7 +17,7 @@ app.get('/newsletter', async (req, res) => {
 app.post('/users', bodyParser.urlencoded({ extended: true }), async (req, res) => {
     const {name, email} = req.body;
 
-    const response = await fetch('http://localhost:8080/users', {
+    const response = await fetch('http://newsletter_backend:8080/users', {
         method: 'post',
         body: JSON.stringify({name, email}),
         headers: {'Content-Type': 'application/json'}
@@ -32,9 +32,12 @@ app.post('/newsletter', bodyParser.urlencoded({ extended: true }),  async (req, 
     const {passwd, message} = await req.body;
 
     // TODO: verificar se passwd == process.ENV.PASSWD
+    if (passwd != process.env.PASSWD) {
+        res.redirect('/newsletter');
+        return;
+    }
 
-
-    const response = await fetch('http://localhost:8080/newsletter', {
+    const response = await fetch('http://newsletter_backend:8080/newsletter', {
         method: 'post',
         body: JSON.stringify({message}),
         headers: {'Content-Type': 'application/json'}

@@ -18,8 +18,8 @@ services:
       interval: 5s
       timeout: 10s
       retries: 5
-    # networks:
-    #   - backend
+    networks:
+      - backnet
 
   app:
     build:
@@ -31,11 +31,26 @@ services:
         condition: service_healthy
     ports:
       - 8080:8080
-    # networks:
-    #   - backend
+    networks:
+      - backnet
+      - frontnet
+
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    container_name: newsletter_gateway
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - 8000:8000
+    networks:
+      - frontnet
 
 
-# networks:
-#   backend:
+networks:
+  backnet:
+    internal: true
 
-#   frontend:
+  frontnet:
