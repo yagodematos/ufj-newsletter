@@ -15,8 +15,8 @@ app.get('/users', (request, reply) => {
         'SELECT * FROM `users`',
         (err, results) => {
             if (err) {
-                console.log('Connection error: ' + err);
-                process.exit()
+                console.log('DB Connection error: '+ err);
+                reply.sendStatus(500);
             }
 
             if (results.length <= 0) {

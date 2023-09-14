@@ -32,8 +32,7 @@ app.post('/newsletter', bodyParser.urlencoded({ extended: true }),  async (req, 
     const {passwd, message} = await req.body;
 
     if (passwd != process.env.PASSWD) {
-        res.redirect('/newsletter');
-        return;
+        res.sendStatus(401);
     }
 
     const response = await fetch('http://newsletter_backend:8080/newsletter', {
@@ -48,4 +47,4 @@ app.post('/newsletter', bodyParser.urlencoded({ extended: true }),  async (req, 
 });
 
 
-app.listen(8000, () => console.log('express running'));
+app.listen(8000);
