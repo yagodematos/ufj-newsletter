@@ -7,5 +7,3 @@ CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-
-INSERT INTO users (name, email) VALUES ("joao", "jjoao@gmail.com")
