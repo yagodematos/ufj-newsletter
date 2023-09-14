@@ -31,7 +31,6 @@ app.post('/users', bodyParser.urlencoded({ extended: true }), async (req, res) =
 app.post('/newsletter', bodyParser.urlencoded({ extended: true }),  async (req, res) => {
     const {passwd, message} = await req.body;
 
-    // TODO: verificar se passwd == process.ENV.PASSWD
     if (passwd != process.env.PASSWD) {
         res.redirect('/newsletter');
         return;
