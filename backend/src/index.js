@@ -10,10 +10,6 @@ const connection = mysql.createConnection({
 
 const app = fastify();
 
-app.get('/', (request, reply) => {
-    reply.send("Hello world");
-});
-
 app.get('/users', (request, reply) => {
     connection.query(
         'SELECT * FROM `users`',
