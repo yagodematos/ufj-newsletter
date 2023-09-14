@@ -2,8 +2,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const fetch = require('node-fetch');
 const path = require('path')
+const http = require('node:http')
+
 
 const app = express();
+
+const httpAgent = new http.Agent({keepAlive: true});
 
 
 app.get('/', async (req, res) => {
@@ -17,15 +21,20 @@ app.get('/newsletter', async (req, res) => {
 app.post('/users', bodyParser.urlencoded({ extended: true }), async (req, res) => {
     const {name, email} = req.body;
 
-    const response = await fetch('http://newsletter_backend:8080/users', {
-        method: 'post',
-        body: JSON.stringify({name, email}),
-        headers: {'Content-Type': 'application/json'}
-    });
+    try {
+        const response = await fetch('http://newsletter_backend:8080/users', {
+            method: 'post',
+            agent: httpAgent,
+            body: JSON.stringify({name, email}),
+            headers: {'Content-Type': 'application/json'}
+        });
 
-    const data = await response.json()
+        const data = await response.json()
 
-    res.send(data);
+        res.send(data);
+    } catch (error) {
+        console.log(error);
+    }
 });
 
 app.post('/newsletter', bodyParser.urlencoded({ extended: true }),  async (req, res) => {
@@ -35,15 +44,20 @@ app.post('/newsletter', bodyParser.urlencoded({ extended: true }),  async (req, 
         res.sendStatus(401);
     }
 
-    const response = await fetch('http://newsletter_backend:8080/newsletter', {
-        method: 'post',
-        body: JSON.stringify({message}),
-        headers: {'Content-Type': 'application/json'}
-    });
+    try {
+        const response = await fetch('http://newsletter_backend:8080/newsletter', {
+            method: 'post',
+            agent: httpAgent,
+            body: JSON.stringify({message}),
+            headers: {'Content-Type': 'application/json'}
+        });
 
-    const data = await response.json();
+        const data = await response.json();
 
-    res.send(data);
+        res.send(data);
+    } catch (error) {
+        console.log(error);
+    }
 });
 
 

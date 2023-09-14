@@ -36,7 +36,8 @@ app.post('/users', (request, reply) => {
         [name, email],
         (err, result) => {
             if (err) {
-                reply.send({ error: err });
+                console.log('Insert into db error: '+ err);
+                reply.sendStatus(500);
             }
 
             reply.redirect('/users')
@@ -53,10 +54,17 @@ app.post('/newsletter', (request, reply) => {
                 reply.send({ error: err });
             }
 
+            if (result.length <= 0) {
+                reply.status(200).send({
+                    "users": [],
+                    message
+                });
+            }
+
             reply.send({
                 "users": result,
                 message
-            })
+            });
         }
     )
 });
